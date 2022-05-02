@@ -12,6 +12,7 @@ use App\Model\BookCategoryListResponse;
 
 class BookCategoryController extends AbstractController
 {
+    //test
     public function __construct(private BookCategoryService $bookCategoryService)
     {
     }
