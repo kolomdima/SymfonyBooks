@@ -159,9 +159,6 @@
     "phpstan/phpdoc-parser": {
         "version": "1.4.5"
     },
-    "phpstan/phpstan": {
-        "version": "1.6.3"
-    },
     "phpunit/php-code-coverage": {
         "version": "9.2.15"
     },
@@ -347,15 +344,6 @@
     },
     "symfony/http-kernel": {
         "version": "v6.0.8"
-    },
-    "symfony/maker-bundle": {
-        "version": "1.40",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.0",
-            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
-        }
     },
     "symfony/options-resolver": {
         "version": "v6.0.3"

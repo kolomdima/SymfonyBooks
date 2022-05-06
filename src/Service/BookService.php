@@ -19,12 +19,12 @@ class BookService
     {
         $category = $this->bookCategoryRepository->find($categoryId);
 
-        if(null === $category){
+        if (null === $category) {
             throw new BookCategoryNotFoundException();
         }
 
         return new BookListResponse(array_map(
-            [$this,'map'],
+            [$this, 'map'],
             $this->bookRepository->findBookByCategoryId($categoryId)
         ));
     }
