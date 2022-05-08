@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\BookCategoryRepository;
+use App\Repository\BookRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: BookCategoryRepository::class)]
+#[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
 {
     #[ORM\Id]
@@ -128,11 +129,7 @@ class Book
         return $this;
     }
 
-    public function setId(int $id):self
-    {
-        $this->id = $id;
-        return $this;
-    }
+
 
     public function getId(): ?int
     {

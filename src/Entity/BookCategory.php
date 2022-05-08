@@ -19,17 +19,11 @@ class BookCategory
     #[ORM\Column(type: 'string', length: 255)]
     private string $slug;
 
-    public function setId(int $id):self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
     }
+
 
     public function getTitle(): ?string
     {

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Service;
 
-use _PHPStan_c900ee2af\Nette\Utils\DateTime;
+
 use App\Entity\Book;
 use App\Entity\BookCategory;
 use App\Exception\BookCategoryNotFoundException;
@@ -11,10 +11,12 @@ use App\Model\BookListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
 use App\Service\BookService;
+use App\Tests\AbstractTestCase;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use PHPUnit\Framework\TestCase;
 
-class BookServiceTest extends TestCase
+
+class BookServiceTest extends AbstractTestCase
 {
     public function testGetBooksByCategoryNotFound()
     {
@@ -22,12 +24,12 @@ class BookServiceTest extends TestCase
         $bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
 
         $bookCategoryRepository->expects($this->once())
-            ->method('find')
+            ->method('existsById')
             ->with(130)
-            ->willThrowException(new BookCategoryNotFoundException());
+            ->willReturn(false);
         $this->expectException(BookCategoryNotFoundException::class);
 
-        (new BookService($bookRepository,$bookCategoryRepository))->getBooksByCategory(130);
+        (new BookService($bookRepository, $bookCategoryRepository))->getBooksByCategory(130);
     }
 
     public function testGetBooksByCategory(): void
@@ -40,20 +42,19 @@ class BookServiceTest extends TestCase
 
         $bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
         $bookCategoryRepository->expects($this->once())
-            ->method('find')
+            ->method('existsById')
             ->with(130)
-            ->willReturn(new BookCategory());
+            ->willReturn(true);
 
         $service = new BookService($bookRepository, $bookCategoryRepository);
         $expected = new BookListResponse([$this->createBookItemModule()]);
 
-        $this->assertEquals($expected,$service->getBooksByCategory(130));
+        $this->assertEquals($expected, $service->getBooksByCategory(130));
     }
 
     private function createBookEntity()
     {
-        return (new Book())
-            ->setId(123)
+        $book = (new Book())
             ->setTitle('Test book')
             ->setSlug('test-book')
             ->setMeap(false)
@@ -61,18 +62,22 @@ class BookServiceTest extends TestCase
             ->setImage('test')
             ->setCategories(new ArrayCollection())
             ->setPublicationDate(new DateTime('2020-10-10'));
+
+        $this->setEntityId($book, 123);
+
+        return $book;
     }
 
     private function createBookItemModule()
     {
-       return (new BookListItem())
-           ->setId(123)
-           ->setTitle('Test book')
-           ->setSlug('test-book')
-           ->setMeap(false)
-           ->setAuthors(['Tester'])
-           ->setImage('test')
-           ->setPublicationDate(1602288000);
+        return (new BookListItem())
+            ->setId(123)
+            ->setTitle('Test book')
+            ->setSlug('test-book')
+            ->setMeap(false)
+            ->setAuthors(['Tester'])
+            ->setImage('test')
+            ->setPublicationDate(1602288000);
     }
 
 
